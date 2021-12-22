@@ -45,6 +45,7 @@ class socketConnection:
     def loadingComplete(self, line):
         if ("End of /NAMES list" in line):
             print(">> Bot Startup complete!")
+            self.sendMessage("Bot is online!")
             return False
         else:
             return True

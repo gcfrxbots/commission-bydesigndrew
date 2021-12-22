@@ -25,9 +25,6 @@ defaultSettings = [
     ("BOT OAUTH", "", "To get this oauth code, head here and log in with YOUR BOT'S account: https://twitchapps.com/tmi/"),
     ("BOT NAME", "", "Your bot's Twitch username, all lowercase."),
     ("CHANNEL", "", "Your Twitch username, all lowercase."),
-    ("", "", ""),
-    ("TRIGGER MESSAGE", "", "The message from another bot that will trigger this bot's main function.,"),
-    ("TRIGGER USER", "CreatisBot", "Only this user can send the TRIGGER MESSAGE and trigger the bot."),
 ]
 
 

@@ -89,8 +89,20 @@ def watchChat():  # Thread to handle twitch/IRC input
                 cmdArguments = message.replace(command or "\r" or "\n", "").strip()
                 print(("(" + misc.formatTime() + ")>> " + user + ": " + message))
                 # Run the commands function
+
                 if command[0] == "!":
                     runcommand(command, cmdArguments, user, False)
+
+                affirmations = ["yes", "yeah", "yep", "indeed"]
+                refutations = ["no", "nope", "not"]
+
+                for item in affirmations:
+                    if item in message:
+                        resources.affirmation(user)
+                for item in refutations:
+                    if item in message:
+                        resources.refutation(user)
+
 
 
 def console():  # Thread to handle console input
@@ -106,7 +118,18 @@ def console():  # Thread to handle console input
 
             if command.lower() in ["quit", "exit", "leave", "stop", "close"]:
                 print("Shutting down")
+                chatConnection.sendMessage("Bot shutting down")
                 os._exit(1)
+
+
+def tick():
+    while True:
+        time.sleep(0.5)
+        if resources.timerActive:
+            if datetime.datetime.now() > resources.timer:
+                resources.timerDone()
+
+
 
 
 if __name__ == "__main__":
@@ -114,7 +137,8 @@ if __name__ == "__main__":
 
     t1 = Thread(target=watchChat)
     t2 = Thread(target=console)
+    t3 = Thread(target=tick)
 
     t1.start()
     t2.start()
-
+    t3.start()
