@@ -1,6 +1,8 @@
 from threading import Thread
-from CustomCommands import *
+from Initialize import *
 initSetup()
+from CustomCommands import *
+
 
 customcmds = CustomCommands()
 
@@ -88,7 +90,13 @@ def watchChat():  # Thread to handle twitch/IRC input
                 command = ((message.split(' ', 1)[0]).lower()).replace("\r", "")
                 cmdArguments = message.replace(command or "\r" or "\n", "").strip()
                 print(("(" + misc.formatTime() + ")>> " + user + ": " + message))
+                db.write('''INSERT INTO chatlog(time, username, message) VALUES("{time}", "{username}", "{message}");'''.format(
+                        time=datetime.datetime.now(), username=user, message=message))
                 # Run the commands function
+
+                for cmdFromFile in commandsFromFile:
+                    if command.lower() == cmdFromFile.lower():
+                        chatConnection.sendMessage(commandsFromFile[cmdFromFile])
 
                 if command[0] == "!":
                     runcommand(command, cmdArguments, user, False)

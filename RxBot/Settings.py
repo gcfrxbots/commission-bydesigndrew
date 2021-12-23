@@ -88,6 +88,8 @@ class settingsConfig:
         except:
             stopBot("Can't open the Settings file. Please close it and make sure it's not set to Read Only. [0]")
 
+
+
     def reloadSettings(self, tmpSettings):
         for item in tmpSettings:
             for i in enumerate(defaultSettings):
@@ -122,7 +124,6 @@ class settingsConfig:
             stopBot("The settings have been changed with an update! Please check your Settings.xlsx file then restart the bot.")
         return settings
 
-
     def settingsSetup(self):
         global settings
 
@@ -153,6 +154,45 @@ class settingsConfig:
         print(">> Initial Checkup Complete! Connecting to Chat...")
         return settings
 
+    def formatCommandsxlsx(self):
+        try:
+            with xlsxwriter.Workbook('../Config/Commands.xlsx') as workbook:  # FORMATTING
+
+                format = workbook.add_format(
+                    {'bold': True, 'center_across': True, 'font_color': 'white', 'bg_color': 'gray'})
+                lightformat = workbook.add_format(
+                    {'center_across': True, 'font_color': 'black', 'bg_color': '#DCDCDC', 'border': True})
+                evenlighterformat = workbook.add_format(
+                    {'font_color': 'black', 'bg_color': '#f0f0f0', 'border': True})
+                redformat = workbook.add_format({'font_color': 'black', 'bg_color': '#ffdede', 'border': True})
+
+                worksheet = workbook.add_worksheet("Commands")  # FORMAT GLOBAL
+                worksheet.set_column(0, 0, 30)
+                worksheet.set_column(1, 1, 110)
+                worksheet.write(0, 0, "Command", format)
+                worksheet.write(0, 1, "Response", format)
+                worksheet.set_column('B:B', 110, evenlighterformat)
+
+            print("Commands.xlsx has been updated successfully.")
+        except PermissionError:
+            stopBot("Can't open the settings file. Please close it and make sure it's not set to Read Only")
+
+    def readCommands(self):
+        wb = xlrd.open_workbook('../Config/Commands.xlsx')
+        commandsFromFile = {}
+        worksheet = wb.sheet_by_name("Commands")
+
+        for item in range(worksheet.nrows):
+            if item == 0:
+                pass
+            else:
+                command = worksheet.cell_value(item, 0)
+                response = str(worksheet.cell_value(item, 1))
+                commandsFromFile[command] = response
+
+        return commandsFromFile
+
+
 
 def buildConfig():
     if not os.path.exists('../Config'):
@@ -165,6 +205,10 @@ def buildConfig():
         print("Please follow the setup guide to everything set up! https://rxbots.net/rxbot-setup.html")
         time.sleep(3)
         quit()
+
+    if not os.path.exists('../Config/Commands.xlsx'):
+        settingsConfig.formatCommandsxlsx(settingsConfig())
+        print("\nCommands file has been created.")
     else:
         print("Everything is already set up!")
 

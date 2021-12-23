@@ -4,6 +4,8 @@ import urllib, urllib.request
 import json
 import socket
 import os
+import sqlite3
+from sqlite3 import Error
 import datetime
 try:
     import xlsxwriter
@@ -11,7 +13,7 @@ try:
 except ImportError as e:
     print(e)
     raise ImportError(">>> One or more required packages are not properly installed! Run INSTALL_REQUIREMENTS.bat to fix!")
-global settings
+global settings, commandsFromFile
 
 class socketConnection:
     def __init__(self):
@@ -25,10 +27,11 @@ class socketConnection:
         return self.socketConn
 
     def sendMessage(self, message):
-        print(message)
         messageTemp = "PRIVMSG #" + settings['CHANNEL'] + " : " + message
         self.socketConn.send((messageTemp + "\r\n").encode("utf-8"))
-        print("Sent: " + messageTemp)
+        print("Sent: " + message)
+        db.write('''INSERT INTO chatlog(time, username, message) VALUES("{time}", "{username}", "{message}");'''.format(
+            time=datetime.datetime.now(), username="BOT", message=message))
 
     def joinRoom(self, s):
         readbuffer = ""
@@ -67,26 +70,100 @@ class coreFunctions:
         return moderators
 
 
+class dbControl:
+    def __init__(self):
+        self.db = None
 
+    def createDb(self):
+        try:
+            self.db = sqlite3.connect('botData.db', check_same_thread=False)
+            sql_creation_commands = (
+                # Create chat log
+                """ CREATE TABLE IF NOT EXISTS chatlog (
+                                id integer PRIMARY KEY,
+                                time text,
+                                username text,
+                                message text
+                            ); """,
+                # Create Backup counts
+                """ CREATE TABLE IF NOT EXISTS counts (
+                                id integer PRIMARY KEY,
+                                counter text NOT NULL,
+                                count text
+                            ); """,
+
+            )
+            c = self.db.cursor()
+            for item in sql_creation_commands:
+                c.execute(item)
+            self.db.commit()
+        except Error as e:
+            print(e)
+
+    def sqlError(self, src, command, e):
+        print("DATABASE ERROR INSIDE %s FUNCTION:" % src.upper())
+        print(e)
+        print(command)
+        return False
+
+    def read(self, command):
+        self.db = sqlite3.connect('botData.db', check_same_thread=False)
+        try:
+            cursor = self.db.cursor()
+            cursor.execute(command)
+            data = cursor.fetchone()
+            self.db.close()
+            return data
+        except Error as e:
+            self.db.rollback()
+            self.sqlError("READ", command, e)
+
+    def fetchAll(self, command):
+        self.db = sqlite3.connect('botData.db', check_same_thread=False)
+        try:
+            cursor = self.db.cursor()
+            cursor.execute(command)
+            data = cursor.fetchall()
+            self.db.close()
+            return data
+        except Error as e:
+            self.db.rollback()
+            self.sqlError("FETCHALL", command, e)
+
+    def write(self, command):
+        self.db = sqlite3.connect('botData.db', check_same_thread=False)
+        try:
+            cursor = self.db.cursor()
+            cursor.execute(command)
+            self.db.commit()
+            self.db.close()
+            return True
+        except Error as e:
+            self.db.rollback()
+            self.sqlError("WRITE", command, e)
 
 
 chatConnection = socketConnection()
 core = coreFunctions()
+db = dbControl()
 
 def initSetup():
-    global settings
+    global settings, commandsFromFile
 
+    db.createDb()
 
     # Create Folders
     if not os.path.exists('../Config'):
+        buildConfig()
+    if not os.path.exists('../Config/Commands.xlsx'):
         buildConfig()
     if not os.path.exists('Resources'):
         os.makedirs('Resources')
         print("Creating necessary folders...")
 
     # Create Settings.xlsx
-    loadedsettings = settingsConfig.settingsSetup(settingsConfig())
-    settings = loadedsettings
+    settings = settingsConfig.settingsSetup(settingsConfig())
+    commandsFromFile = settingsConfig.readCommands(settingsConfig())
 
     return
 

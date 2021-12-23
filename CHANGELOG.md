@@ -20,13 +20,17 @@
 
 ~~DONE - Announces when bot is online and when it's going offline~~
 
-IN PROGRESS - Ask people if they're following along with the stream/tutorial (Is this making sense?)
+~~DONE Automated replies using keywords~~
+
+~~DONE Agree with people who say positive things~~
+
+~~DONE Added command functionality so the user can configure any commands or responses they like~~
+
+~~DONE Keeps a log of chat history~~ (But need a way to display out of database)
+
+IN PROGRESS - Ask people if they're following along with the stream/tutorial - Working, but not on a timer.
 
 • Bans spammers using keywords
-
-• Automated replies using keywords >> [ What keywords / configurable? Just reply to one word with one response?]
-
-• Keeps a log of chat history
 
 • TTS Highlighted texts and other Channel Point rewards
 
@@ -42,8 +46,6 @@ IN PROGRESS - Ask people if they're following along with the stream/tutorial (Is
 
 • Ask them if they have any questions
 
-• Agree with people who say positive things
-
 • Tell people to follow guest when they are on streams >> [ How should the bot determine who to shout out?]
 
 • Do an ask the bot and respond with phrases from (http://www.ruderal.com/bullshit/bullshit.htm)
@@ -54,22 +56,26 @@ IN PROGRESS - Ask people if they're following along with the stream/tutorial (Is
 
 #Commands
 
-~~STREAMLABS -   Calculates !uptime for your stream~~
+~~DONE -   Calculates !uptime for your stream~~
 
-~~STREAMLABS - Gives !followage time to viewers who follow you~~
+~~DONE - Gives !followage time to viewers who follow you~~
 
-• !coinflip and !odds for trivia >> [ What should !odds do?] 
+~~DONE !coinflip~~
+
+~~DONE !Description show title and description of stream~~
+
+~~DONE !lurk command~~
+
+~~DONE !socials and other commands to promote your socials~~
+
+IN PROGRESS - !count how many times my computer programs crash or count how many tabs I have open in the google chrome browser - Database working but not fully integrated
+
+• !odds for trivia >> [ What should !odds do?] 
 
 • !clip to clip your stream >> [ Might not be possible on my end, but I'm pretty sure streamlabs can do.]
-
-• !lurk command
-
-• !socials and other commands to promote your socials
-
-• !count how many times my computer programs crash or count how many tabs I have open in the google chrome browser
 
 • !Countdown to things on a shared calendar >> [ Which calendar? A google calendar or something?]
 
 • !Timestamp create time marker with a label >> [ Where should this be saved? ]
 
-• !Description show title and description of stream
+
