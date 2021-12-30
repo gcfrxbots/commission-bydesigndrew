@@ -9,3 +9,5 @@ gTTS
 playsound==1.2.2
 
 websocket
+
+websocket-client
