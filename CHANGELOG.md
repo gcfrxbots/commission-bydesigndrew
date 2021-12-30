@@ -18,6 +18,10 @@
 
 ~~STREAMLABS - Thank people for donation or subscription~~
 
+~~STREAMLABS -  Bans spammers using keywords~~
+
+~~STREAMLABS - Ask them if they have any questions~~
+
 ~~DONE - Announces when bot is online and when it's going offline~~
 
 ~~DONE Automated replies using keywords~~
@@ -28,27 +32,23 @@
 
 ~~DONE Keeps a log of chat history~~ (But need a way to display out of database)
 
+~~DONE Thanks subscribers with TTS instantly~~
+
+~~DONE Respond to emotes and key phrases~~
+
 IN PROGRESS - Ask people if they're following along with the stream/tutorial - Working, but not on a timer.
 
-• Bans spammers using keywords
-
-• TTS Highlighted texts and other Channel Point rewards
+IN PROGRESS TTS Highlighted texts and other Channel Point rewards - Channel point rewards work but highlighted text doesn't.
 
 • TTS Announcements and other scripts >>  [ What should be announced?]
-
-• Thanks subscribers with TTS instantly
 
 • Song Requests TTS notifications  >> [ What are you using for song request? What should it notify?]
 
 • Bot has specific text color but can change color for different parts of stream  >> [ Please describe? Should this change the color of something in OBS?]
 
-• Respond to emotes and key phrases >> [This would probably be BETTER configured with streamlabs, but still doable on my end if preferred.]
-
-• Ask them if they have any questions
-
 • Tell people to follow guest when they are on streams >> [ How should the bot determine who to shout out?]
 
-• Do an ask the bot and respond with phrases from (http://www.ruderal.com/bullshit/bullshit.htm)
+~~DONE - Do an ask the bot and respond with phrases from (http://www.ruderal.com/bullshit/bullshit.htm)~~
 
 • Explain to people all the commands
 

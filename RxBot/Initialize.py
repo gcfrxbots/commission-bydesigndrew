@@ -15,43 +15,6 @@ except ImportError as e:
     raise ImportError(">>> One or more required packages are not properly installed! Run INSTALL_REQUIREMENTS.bat to fix!")
 global settings, commandsFromFile
 
-class socketConnection:
-    def __init__(self):
-        self.socketConn = socket.socket()
-
-    def openSocket(self):
-        self.socketConn.connect(("irc.chat.twitch.tv", int(settings['PORT'])))
-        self.socketConn.send(("PASS " + settings['BOT OAUTH'] + "\r\n").encode("utf-8"))
-        self.socketConn.send(("NICK " + settings['BOT NAME'] + "\r\n").encode("utf-8"))
-        self.socketConn.send(("JOIN #" + settings['CHANNEL'] + "\r\n").encode("utf-8"))
-        return self.socketConn
-
-    def sendMessage(self, message):
-        messageTemp = "PRIVMSG #" + settings['CHANNEL'] + " : " + message
-        self.socketConn.send((messageTemp + "\r\n").encode("utf-8"))
-        print("Sent: " + message)
-        db.write('''INSERT INTO chatlog(time, username, message) VALUES("{time}", "{username}", "{message}");'''.format(
-            time=datetime.datetime.now(), username="BOT", message=message))
-
-    def joinRoom(self, s):
-        readbuffer = ""
-        Loading = True
-
-        while Loading:
-            readbuffer = readbuffer + s.recv(1024).decode("utf-8")
-            temp = readbuffer.split("\n")
-            readbuffer = temp.pop()
-
-            for line in temp:
-                Loading = self.loadingComplete(line)
-
-    def loadingComplete(self, line):
-        if ("End of /NAMES list" in line):
-            print(">> Bot Startup complete!")
-            self.sendMessage("Bot is online!")
-            return False
-        else:
-            return True
 
 class coreFunctions:
     def __init__(self):
@@ -142,8 +105,6 @@ class dbControl:
             self.db.rollback()
             self.sqlError("WRITE", command, e)
 
-
-chatConnection = socketConnection()
 core = coreFunctions()
 db = dbControl()
 
