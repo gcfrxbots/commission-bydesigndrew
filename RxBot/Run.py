@@ -101,7 +101,7 @@ class chat:
         self.ws.send(json.dumps(loginRequest))
 
     def puppetlogin(self):
-        time.sleep(1)
+        time.sleep(1.5)
         loginRequest = {
             "type": "PUPPET_LOGIN",
             "token": self.puppetToken
@@ -130,7 +130,6 @@ class chat:
         self.ws = create_connection(self.url)
         self.login()
         while True:
-            time.sleep(0.2)
             result = self.ws.recv()
             resultDict = json.loads(result)
             #print(resultDict)
@@ -147,8 +146,12 @@ class chat:
                 eventKeys = resultDict["event"].keys()
                 if "message" in eventKeys:  # Got chat message, display it then process commands
                     try:
+
                         message = resultDict["event"]["message"]
                         user = resultDict["event"]["sender"]["displayname"]
+                        db.write(
+                            '''INSERT INTO chatlog(time, username, message) VALUES("{time}", "{username}", "{message}");'''.format(
+                                time=datetime.datetime.now(), username=user, message=message))
                         command = ((message.split(' ', 1)[0]).lower()).replace("\r", "")
                         cmdarguments = message.replace(command or "\r" or "\n", "")[1:]
                         print("(" + misc.formatTime() + ")>> " + user + ": " + message)
@@ -162,9 +165,16 @@ class chat:
                         for item in affirmations:
                             if item in message:
                                 chatConnection.sendToChat(resources.affirmation(user))
+                                break
                         for item in refutations:
                             if item in message:
                                 chatConnection.sendToChat(resources.refutation(user))
+                                break
+
+                        if resultDict["event"]["is_highlighted"]:
+                            if settings["TTS HIGHLIGHTED CHAT"]:
+                                print("Saying highlighted text in TTS")
+                                chatConnection.sendToChat(resources.sayInTTS(message))
                     except:
                         pass
 
@@ -221,11 +231,19 @@ def console():  # Thread to handle console input
 
 
 def tick():
+    prevTime = datetime.datetime.now()
     while True:
         time.sleep(0.5)
+
         if resources.timerActive:
             if datetime.datetime.now() > resources.timer:
                 resources.timerDone()
+
+        if datetime.datetime.now() > prevTime + datetime.timedelta(minutes=settings["QUESTION TIMER DELAY"]):
+            if settings["ENABLE TIMERS"]:
+                chatConnection.sendToChat(resources.askChatAQuestion())
+                prevTime = datetime.datetime.now()
+
 
 
 

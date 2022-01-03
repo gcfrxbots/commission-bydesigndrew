@@ -36,21 +36,23 @@
 
 ~~DONE Respond to emotes and key phrases~~
 
-IN PROGRESS - Ask people if they're following along with the stream/tutorial - Working, but not on a timer.
+~~DONE - Ask people if they're following along with the stream/tutorial - Working, but not on a timer.~~
 
-IN PROGRESS TTS Highlighted texts and other Channel Point rewards - Channel point rewards work but highlighted text doesn't.
+~~( ADD !tts COMMAND)~~
 
-• TTS Announcements and other scripts >>  [ What should be announced?]
+~~DONE -TTS Announcements and other scripts~~
+
+~~DONE - Do an ask the bot and respond with phrases from (http://www.ruderal.com/bullshit/bullshit.htm)~~
+
+~~DONE = Explain to people all the commands~~
+
+~~DONE - Channel point rewards work but highlighted text doesn't.~~
 
 • Song Requests TTS notifications  >> [ What are you using for song request? What should it notify?]
 
 • Bot has specific text color but can change color for different parts of stream  >> [ Please describe? Should this change the color of something in OBS?]
 
 • Tell people to follow guest when they are on streams >> [ How should the bot determine who to shout out?]
-
-~~DONE - Do an ask the bot and respond with phrases from (http://www.ruderal.com/bullshit/bullshit.htm)~~
-
-• Explain to people all the commands
 
 
 
@@ -68,7 +70,9 @@ IN PROGRESS TTS Highlighted texts and other Channel Point rewards - Channel poin
 
 ~~DONE !socials and other commands to promote your socials~~
 
-IN PROGRESS - !count how many times my computer programs crash or count how many tabs I have open in the google chrome browser - Database working but not fully integrated
+~~DONE - !Timestamp create time marker with a label~~
+
+~~DONE - !count how many times my computer programs crash or count how many tabs I have open in the google chrome browser - Database working but not fully integrated~~
 
 • !odds for trivia >> [ What should !odds do?] 
 
@@ -76,6 +80,6 @@ IN PROGRESS - !count how many times my computer programs crash or count how many
 
 • !Countdown to things on a shared calendar >> [ Which calendar? A google calendar or something?]
 
-• !Timestamp create time marker with a label >> [ Where should this be saved? ]
+
 
 

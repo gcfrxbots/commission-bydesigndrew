@@ -79,7 +79,7 @@ class dbControl:
             return data
         except Error as e:
             self.db.rollback()
-            self.sqlError("READ", command, e)
+            #self.sqlError("READ", command, e)
 
     def fetchAll(self, command):
         self.db = sqlite3.connect('botData.db', check_same_thread=False)

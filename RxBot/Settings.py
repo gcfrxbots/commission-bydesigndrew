@@ -21,10 +21,10 @@ GenSettings = (vars(parser.parse_args())["GenSettings"])
 '''FORMAT ---->   ("Option", "Default", "This is a description"), '''
 
 defaultSettings = [
-    ("PORT", 80, "Try 6667 if this doesn't work. Use 443 or 6697 for SSL. Don't touch otherwise."),
-    ("BOT OAUTH", "", "To get this oauth code, head here and log in with YOUR BOT'S account: https://twitchapps.com/tmi/"),
-    ("BOT NAME", "", "Your bot's Twitch username, all lowercase."),
     ("CHANNEL", "", "Your Twitch username, all lowercase."),
+    ("ENABLE TIMERS", "Yes", "Set to No to stop the bot from asking chat if they're enjoying themselves every few minutes."),
+    ("QUESTION TIMER DELAY", "5", "Time, in minutes, between asking a scheduled question"),
+    ("TTS HIGHLIGHTED CHAT", "Yes", "If set to Yes, the bot will read all highlighted chat aloud. Includes a basic filter."),
 ]
 
 
@@ -142,14 +142,8 @@ class settingsConfig:
         settings = self.readSettings(wb)
 
         # Check Settings
-        if str(int(settings["PORT"])) not in ('80', '6667', '443', '6697'):  # Convert into non-float string
-            stopBot("Wrong Port! The port must be 80 or 6667 for standard connections, or 443 or 6697 for SSL")
-        if not settings['BOT OAUTH']:
-            stopBot("Missing BOT OAUTH - Please follow directions in the settings or readme.")
-        if not ('oauth:' in settings['BOT OAUTH']):
-            stopBot("Invalid BOT OAUTH - Your oauth should start with 'oauth:'")
-        if not settings['BOT NAME'] or not settings['CHANNEL']:
-            stopBot("Missing BOT NAME or CHANNEL")
+        if not settings['CHANNEL']:
+            stopBot("Missing CHANNEL")
 
         print(">> Initial Checkup Complete! Connecting to Chat...")
         return settings
