@@ -2,8 +2,8 @@ echo You need to have Python 3.7 (and the included PIP package) installed for th
 pause
 py -3.7 -m pip install -r requirements.txt --user --no-warn-script-location
 
-pip3 install gTTS-token --upgrade
-pip3 install gTTS --upgrade
+py -3.7 -m pip install gTTS-token --upgrade
+py -3.7 -m pip install gTTS --upgrade
 
 py -3.7 ../RxBot/Authenticate.py
 
