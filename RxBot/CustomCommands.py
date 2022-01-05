@@ -33,7 +33,9 @@ class resources:
             "Shemale",
             "Kike",
             "Nicker",
-            "Tard"
+            "Tard",
+            "Negro",
+            "Chink"
         ]
 
         self.affirmationResponses = [

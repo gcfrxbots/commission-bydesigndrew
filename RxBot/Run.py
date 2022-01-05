@@ -114,10 +114,10 @@ class chat:
     def sendToChat(self, message):
         if message:
             if not self.puppet:
-                    request = {
-                      "type": "CHAT",
-                      "message": message,
-                      "chatter": "CLIENT"}
+                request = {
+                  "type": "CHAT",
+                  "message": message,
+                  "chatter": "CLIENT"}
             else:
                 request = {
                     "type": "CHAT",
@@ -155,6 +155,9 @@ class chat:
                         command = ((message.split(' ', 1)[0]).lower()).replace("\r", "")
                         cmdarguments = message.replace(command or "\r" or "\n", "")[1:]
                         print("(" + misc.formatTime() + ")>> " + user + ": " + message)
+                        for cmdFromFile in commandsFromFile:
+                            if command.lower() == cmdFromFile.lower():
+                                chatConnection.sendToChat(commandsFromFile[cmdFromFile])
 
                         if command[0] == "!":  # Only run normal commands if COMMAND PHRASE is blank
                             runcommand(command, cmdarguments, user, False)
