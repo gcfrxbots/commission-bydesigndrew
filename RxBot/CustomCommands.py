@@ -141,6 +141,9 @@ class CustomCommands:
             if not commands_CustomCommands[key][0] == "STREAMER":
                 cmds.append(key)
 
+        for cmd in commandsFromFile:
+            cmds.append(cmd)
+
         return "You can use the following commands: " + ", ".join(cmds)
 
     def timestamp(self, args, user):
